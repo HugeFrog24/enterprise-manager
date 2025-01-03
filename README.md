@@ -1,77 +1,46 @@
 # Enterprise Manager
 
-A robust solution for managing and controlling remote systems in enterprise environments. This project provides unattended access and task execution capabilities while maintaining system stability through a multi-tiered monitoring approach.
+Monitor and manage enterprise systems through a modern web interface.
 
-## Overview
-
-The Enterprise Manager uses a three-tier architecture to ensure reliable operation:
+## Architecture
 
 ```
-Tier-1 Core (Guardian)
-      │
-      ├─► Tier-2 Core (Monitor)
-              │
-              ├─► Main Process (Executor)
-                      │
-                      ├─► Tasks from Control Server
+tier1-core.exe (Guardian)
+└── tier2-core.exe (Monitor)
+    └── main-process.exe (Executor)
 ```
 
-### Components
+- **Tier-1**: Core stability layer, manually managed
+- **Tier-2**: Process monitor, restartable via UI
+- **Main**: Task executor with resilience patterns
 
-#### 1. Tier-1 Core (The Guardian)
-- The most stable and reliable component
-- Rarely needs updates
-- Monitors and restarts Tier-2 if it fails
-- Acts as the system's last line of defense
+## Build & Install
 
-#### 2. Tier-2 Core (The Monitor)
-- Updatable component that watches the main process
-- Can receive updates more frequently
-- Protected by Tier-1 Core
-- Restarts the main process if it fails
+Prerequisites: Go 1.21+, Windows
 
-#### 3. Main Process (The Executor)
-- Handles actual task execution
-- Fetches commands from the control server
-- Reports execution results back
-- Protected by Tier-2 Core
+```bash
+# Build all components
+go build -o bin/tier1-core.exe ./cmd/tier1-core
+go build -o bin/tier2-core.exe ./cmd/tier2-core
+go build -o bin/main-process.exe ./cmd/main-process
+```
 
-#### 4. Control Server
-- Central management point
-- Distributes tasks to systems
-- Collects execution results
-- Maintains system status
+Install in order: tier1-core (manual) → tier2-core → main-process
 
-## How It Works
+## Configuration
 
-1. The system starts with Tier-1 Core, which launches and monitors Tier-2 Core
-2. Tier-2 Core starts and monitors the Main Process
-3. Main Process connects to the Control Server and waits for tasks
-4. When tasks arrive, they are executed and results are reported back
-5. If any component fails, its monitor will restart it automatically
+```bash
+# Optional environment variables
+API_ENDPOINT=http://localhost:3000/api/tasks
+SYSTEMS_ENDPOINT=http://localhost:3000/api/systems
+POLL_INTERVAL_SECONDS=30
+MAX_RETRIES=3
+RETRY_INTERVAL_SECONDS=5
+SYSTEM_ID=auto-generated-if-not-set
+```
 
-This design ensures that the system can:
-- Recover from failures automatically
-- Execute tasks reliably
-- Maintain connection with the control server
-- Update components safely
-- Report execution status
+## Security Notes
 
-## Use Cases
-
-- Remote system management
-- Automated task execution
-- Kiosk management
-- Unattended system maintenance
-- Enterprise-wide command execution
-- System monitoring and reporting
-
-## Security
-
-The system includes basic security measures like:
-- Whitelisted commands only
-- Process isolation
-- Controlled execution
-- Error containment
-
-For production use, additional security measures should be implemented based on specific requirements.
+- Tier-1 requires admin privileges
+- API endpoints should use HTTPS in production
+- Add authentication as needed

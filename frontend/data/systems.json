@@ -1,0 +1,20 @@
+[
+  {
+    "id": "win-c9b9d9c6-4e5a-4bfd-acba-70396992af3c",
+    "name": "System (windows)",
+    "hostname": "Sergej-PC",
+    "hostInfo": "windows/amd64",
+    "health": {
+      "tier1Uptime": 600.2657493,
+      "tier2Uptime": 600.2657493,
+      "mainProcessUptime": 600.2657493,
+      "lastHeartbeat": "2025-01-03T22:20:36Z",
+      "memoryUsage": 23,
+      "cpuUsage": 5.208333333333334
+    },
+    "tier1Status": "running",
+    "tier2Status": "running",
+    "mainProcessStatus": "running",
+    "lastHeartbeat": "2025-01-03T22:20:36.146Z"
+  }
+]

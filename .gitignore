@@ -1,0 +1,30 @@
+# Node.js
+node_modules/
+.next/
+.cache/
+dist/
+build/
+coverage/
+
+# Go
+bin/
+*.exe
+*.test
+*.out
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
